@@ -5,27 +5,14 @@
     <title>Wedding Invitation</title>
 
     <style>
-.card {
-    position: absolute;
-
-    height: 62%;
-    width: auto;
-
-    left: 5%;
-    top: 18%;
-
-    z-index: 1;
-transform: translateY(5%);
-transition: transform 1.4s ease;
-}
-.envelope.open .card{
-transform: translateY(-30%);
-}
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             margin: 0;
             min-height: 100vh;
-            background: #f5f0e8;
+            background: transparent;
 
             display: flex;
             justify-content: center;
@@ -34,6 +21,7 @@ transform: translateY(-30%);
 
         .envelope {
             position: relative;
+
             width: 700px;
             height: 700px;
 
@@ -41,8 +29,34 @@ transform: translateY(-30%);
             perspective: 1500px;
         }
 
+
+        /* =====================
+           CARD
+        ====================== */
+
+        .card {
+            position: absolute;
+
+            height: 62%;
+            width: auto;
+
+            left: 5%;
+            top: 18%;
+
+            z-index: 1;
+
+            transform: translateY(5%);
+            transition: transform 1.4s ease;
+        }
+
+
+        /* =====================
+           ENVELOPE BODY
+        ====================== */
+
         .body {
             position: absolute;
+
             top: 0;
             left: 0;
 
@@ -52,8 +66,14 @@ transform: translateY(-30%);
             z-index: 2;
         }
 
+
+        /* =====================
+           FLAP
+        ====================== */
+
         .flap {
             position: absolute;
+
             top: 0;
             left: 0;
 
@@ -63,51 +83,110 @@ transform: translateY(-30%);
             z-index: 3;
 
             transform-origin: 50% 15%;
-            transition: transform 1.2s ease;
+
+            transition:
+                transform 1.2s ease,
+                z-index 0s 0.6s;
         }
-.envelope.open .body {
-  z-index:1 ;
-}
-.envelope.open.flap {
-z-index:2;
-}
-.envelope.open .card{
-z-index:3;
-}
+
+
+        /* =====================
+           OPEN STATE
+        ====================== */
+
+        .envelope.open .card {
+            transform: translateY(-30%);
+            z-index: 3;
+        }
+
+        .envelope.open .body {
+            z-index: 1;
+        }
 
         .envelope.open .flap {
             transform: rotateX(-180deg);
+
+            /*
+              بعد از نیمه‌ی انیمیشن
+              flap پشت کارت قرار می‌گیرد
+            */
+            z-index: 2;
         }
+
+
+        /* =====================
+           MUSIC
+        ====================== */
+
+        audio {
+            display: none;
+        }
+
     </style>
 </head>
 
+
 <body>
 
-<div class="envelope" id="envelope">
+    <div class="envelope" id="envelope">
 
-    <img src="card.png" class="card" alt="Card">
+        <img
+            src="card.png"
+            class="card"
+            alt="Card"
+        >
 
-    <img src="envelope.png" class="body" alt="Envelope">
+        <img
+            src="envelope.png"
+            class="body"
+            alt="Envelope"
+        >
 
-    <img src="flap.png" class="flap" alt="Flap">
+        <img
+            src="flap.png"
+            class="flap"
+            alt="Flap"
+        >
 
-</div>
-<audio id="weddingMusic" src="music.mp3" preload="auto"></audio>
+    </div>
+
+
+    <audio
+        id="weddingMusic"
+        src="music.mp3"
+        preload="auto">
+    </audio>
 
 
     <script>
-        const envelope = document.getElementById("envelope");
-const music = document.getElementById("weddingMusic");
 
-envelope.addEventListener("click", function () {
+        const envelope =
+            document.getElementById("envelope");
 
-    envelope.classList.toggle("open");
+        const music =
+            document.getElementById("weddingMusic");
 
-    music.play().catch(function(error) {
-        console.log("Music could not play:", error);
-    });
 
-});
+        envelope.addEventListener("click", function () {
+
+            envelope.classList.toggle("open");
+
+
+            if (envelope.classList.contains("open")) {
+
+                music.play().catch(function(error) {
+                    console.log("Music could not play:", error);
+                });
+
+            } else {
+
+                music.pause();
+                music.currentTime = 0;
+
+            }
+
+        });
+
     </script>
 
 </body>
