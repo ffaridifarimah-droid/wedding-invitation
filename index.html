@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>Wedding Invitation</title>
+
+    <style>
+.card {
+    position: absolute;
+
+    height: 62%;
+    width: auto;
+
+    left: 5%;
+    top: 18%;
+
+    z-index: 1;
+transform: translateY(5%);
+transition: transform 1.4s ease;
+}
+.envelope.open .card{
+transform: translateY(-30%);
+}
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f5f0e8;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .envelope {
+            position: relative;
+            width: 700px;
+            height: 700px;
+
+            cursor: pointer;
+            perspective: 1500px;
+        }
+
+        .body {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: 2;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 100%;
+
+            z-index: 3;
+
+            transform-origin: top center;
+            transition: transform 1.2s ease;
+        }
+.envelope.open .body {
+  z-index:1 ;
+}
+.envelope.open .card{
+z-index:2;
+}
+
+        .envelope.open .flap {
+            transform: rotateX(-180deg);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="envelope" id="envelope">
+
+    <img src="card.png" class="card" alt="Card">
+
+    <img src="envelope.png" class="body" alt="Envelope">
+
+    <img src="flap.png" class="flap" alt="Flap">
+
+</div>
+<audio id="weddingMusic" src="music.mp3" preload="auto"></audio>
+
+
+    <script>
+        const envelope = document.getElementById("envelope");
+const music = document.getElementById("weddingMusic");
+
+envelope.addEventListener("click", function () {
+
+    envelope.classList.toggle("open");
+
+    music.play().catch(function(error) {
+        console.log("Music could not play:", error);
+    });
+
+});
+    </script>
+
+</body>
+</html>
